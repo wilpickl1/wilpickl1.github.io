@@ -8,8 +8,10 @@
     <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
     <!-- FIREBASE -->
     <script src="https://unpkg.com/aframe-firebase-component@^4.0.0/dist/aframe-firebase-component.min.js"></script>
-    <!-- ENVIRONMENT -->
+    <!-- ENVIRONMENT: https://github.com/supermedium/aframe-environment-component -->
     <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <!-- POST PROCESSING: https://github.com/wizgrav/aframe-effects -->
+    <script src="https://wizgrav.github.io/aframe-effects/dist/aframe-effects.min.js"></script>
 
 </head>
 
@@ -17,35 +19,42 @@
     <a-scene firebase="apiKey: AIzaSyBULWUfd5hcDpaCYBZyep0qgffNFfVFuZ8;
         authDomain: whp-portfolio.firebaseapp.com;
         databaseURL: https://whp-portfolio.firebaseio.com;
-        storageBucket: whp-portfolio.appspot.com">
+        storageBucket: whp-portfolio.appspot.com"
+        effects="bloom, fxaa, godrays" godrays bloom="radius: 0.5; threshold: .5" fxaa>
         <a-assets>
-          <a-asset-item id="face" src="assets/models/male_head.gltf"></a-asset-item>  
+          <a-asset-item id="face" src="assets/models/male_head.gltf"></a-asset-item>
           
           <!-- STOLEN FROM https://www.npmjs.com/package/aframe-firebase-component -->
-            <a-mixin id="block-head" geometry="primitive: box; depth: 0.3; height: 0.3; width: 0.3" material="color: #222"></a-mixin>
-            </a-mixin>
-            <a-mixin id="whp-head" gltf-model="#face" scale="0.015 0.015 0.015" ></a-mixin>            
-        </a-assets>
+            <a-mixin id="block" geometry="primitive: box; depth: 0.3; height: 0.3; width: 0.3" material="color: #222"></a-mixin></a-mixin>
+            <a-mixin id="whp" gltf-model="#face" scale="0.015 0.015 0.015"></a-mixin>
 
-        <!-- ALSO STOLEN -->
+        </a-assets>
+        <a-entity environment="ground-color: #222; groundTexture: none; skyType: gradient; skyColor: #000; horizonColor: #333"></a-entity>
+        <a-light type="directional"></a-light>
+        <!--
         <a-entity id="camera" camera look-controls wasd-controls position="0 1.8 5">
-          <a-entity id="avatar" mixin="whp-head" position="0 0 0.34" firebase-broadcast="components: mixin, position, rotation">
+          <a-entity id="avatar" mixin="whp" position="0 0 0.31" firebase-broadcast="components: mixin, position, rotation">
+            <a-sphere id="leftEye" scale="1 1 3" position="-5.840 6.224 -15.061" rotation="0 102.795 0" material="shader: flat"></a-sphere>
+            <a-sphere id="rightEye" scale="1 1 3" position="5.840 6.224 -15.061" rotation="0 -102.795 0" material="shader: flat"></a-sphere>
           </a-entity>
         </a-entity>
-
-        <!--
-        <a-entity id="avatar"
-                  mixin="whp-head"
+        --> 
+        
+        
+        <!-- ALSO STOLEN -->
+        <a-entity id="Avatar"
                   camera look-controls wasd-controls
                   firebase-broadcast="components: mixin, position, rotation"
                   position="0 1.8 5">
+                  <a-entity id="AvatarHead" mixin="whp" position="0 0 0.31" rotation="0 180 0" firebase-broadcast="components: mixin, position, rotation">
+                      <a-sphere id="AvatarLeftEye" scale="1 1 3" position="5.840 6.224 15.061" rotation="0 102.795 0" material="shader: flat"></a-sphere>
+                      <a-sphere id="AvatarRightEye" scale="1 1 3" position="-5.840 6.224 15.061" rotation="0 -102.795 0" material="shader: flat"></a-sphere>
+                  </a-entity>
         </a-entity>
-        -->
 
-        <!-- <a-entity environment></a-entity> -->
-        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="white"></a-box>
+        <a-sphere position="0 1.25 -5" radius="1.25" color="white"></a-sphere>
+        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="white"></a-cylinder>
         <a-sky color="#555"></a-sky>
     </a-scene>
 </body>
